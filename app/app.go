@@ -3,9 +3,10 @@ package app
 import "net/http"
 
 func Start() {
+	mux := http.NewServeMux()
 	//define routes
-	http.HandleFunc("/greet", greet)
-	http.HandleFunc("/cutomers", getCustomers)
+	mux.HandleFunc("/greet", greet)
+	mux.HandleFunc("/cutomers", getCustomers)
 	//starting server
-	http.ListenAndServe("localhost:5005", nil)
+	http.ListenAndServe("localhost:5005", mux)
 }

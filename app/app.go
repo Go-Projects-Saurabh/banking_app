@@ -1,12 +1,19 @@
 package app
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/gorilla/mux"
+)
 
 func Start() {
-	mux := http.NewServeMux()
+	// mux := http.NewServeMux()
+	router := mux.NewRouter()
 	//define routes
-	mux.HandleFunc("/greet", greet)
-	mux.HandleFunc("/cutomers", getCustomers)
+	router.HandleFunc("/greet", greet).Methods(http.MethodGet)
+	router.HandleFunc("/cutomers", getCustomers).Methods(http.MethodGet)
+	router.HandleFunc("/cutomers", createCustomer).Methods(http.MethodPost)
+	router.HandleFunc("/cutomers/{customer_id:[0-9]+}", getCustomer).Methods(http.MethodGet) //URL segments
 	//starting server
-	http.ListenAndServe("localhost:5005", mux)
+	http.ListenAndServe("localhost:5005", router)
 }
